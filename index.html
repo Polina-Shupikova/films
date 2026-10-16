@@ -1,0 +1,1538 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Кино, которое нас объединяет</title>
+
+<style>
+:root {
+  --paper: #f4efe5;
+  --paper2: #ebe2d2;
+  --ink: #24231f;
+  --muted: #716b60;
+  --red: #9f3029;
+  --red-dark: #70221e;
+  --gold: #c69a53;
+  --line: #d7cbb8;
+  --green: #354d40;
+  --shadow: 0 18px 50px #30251a18;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+button, input { font: inherit; }
+button { cursor: pointer; }
+a { color: inherit; }
+
+.topline {
+  height: 7px;
+  background: var(--red);
+}
+
+.wrap {
+  width: min(1180px, calc(100% - 40px));
+  margin: auto;
+}
+
+header {
+  border-bottom: 1px solid var(--line);
+  background: #f7f2e9ef;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  backdrop-filter: blur(12px);
+}
+
+.nav {
+  height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.brand-mark {
+  width: 42px;
+  height: 42px;
+  background: var(--red);
+  color: white;
+  display: grid;
+  place-items: center;
+  font-size: 23px;
+  transform: rotate(-4deg);
+  box-shadow: 4px 4px 0 var(--gold);
+}
+
+.brand strong {
+  display: block;
+  font-size: 15px;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+
+.brand small {
+  font-family: Arial, sans-serif;
+  font-size: 10px;
+  letter-spacing: .18em;
+  color: var(--muted);
+}
+
+.navlinks {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.navlinks a {
+  font: 12px Arial, sans-serif;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.navlinks a:hover { color: var(--red); }
+
+.saved-nav {
+  border: 1px solid var(--line);
+  background: transparent;
+  padding: 10px 13px;
+  color: var(--red);
+  font: 12px Arial, sans-serif;
+}
+
+/* ГЛАВНЫЙ ЭКРАН */
+
+.hero {
+  padding: 64px 0 56px;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 82% 42%, #e3d2b5 0, transparent 34%),
+    var(--paper);
+}
+
+.hero:after {
+  content: "";
+  position: absolute;
+  right: -70px;
+  top: 10px;
+  width: 360px;
+  height: 360px;
+  border: 1px solid #c9b99e;
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 20px #c9b99e20,
+    0 0 0 42px #c9b99e15;
+  pointer-events: none;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.08fr .92fr;
+  gap: 55px;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.eyebrow {
+  font: 11px Arial, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: .22em;
+  color: var(--red);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.eyebrow:before {
+  content: "";
+  width: 28px;
+  height: 1px;
+  background: var(--red);
+}
+
+h1 {
+  font-size: clamp(44px, 6.3vw, 78px);
+  line-height: .98;
+  letter-spacing: -.045em;
+  font-weight: normal;
+  margin: 22px 0;
+}
+
+.hero h1 em {
+  color: var(--red);
+  font-weight: normal;
+}
+
+.hero-copy {
+  font: 15px/1.8 Arial, sans-serif;
+  color: #5e584e;
+  max-width: 520px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 28px;
+}
+
+.btn {
+  border: 0;
+  padding: 15px 20px;
+  background: var(--red);
+  color: white;
+  font: 12px Arial, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  transition: .2s;
+}
+
+.btn:hover {
+  background: var(--red-dark);
+  transform: translateY(-2px);
+}
+
+.btn.secondary {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--ink);
+}
+
+.hero-art {
+  min-height: 390px;
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.sun {
+  position: absolute;
+  width: 270px;
+  height: 270px;
+  border-radius: 50%;
+  background: var(--gold);
+  opacity: .55;
+  top: 25px;
+  right: 35px;
+}
+
+.film-frame {
+  position: relative;
+  width: 250px;
+  height: 335px;
+  background: var(--green);
+  padding: 13px;
+  box-shadow: 18px 18px 0 var(--red), var(--shadow);
+  transform: rotate(4deg);
+  z-index: 1;
+}
+
+.film-inner {
+  height: 100%;
+  border: 1px solid #f3d8a3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  padding: 20px 14px;
+  color: #f4e6c8;
+  background: linear-gradient(145deg, #263c32, #59705a);
+}
+
+.film-inner:before,
+.film-inner:after {
+  content: "✦   ✦   ✦";
+  font-size: 12px;
+  letter-spacing: 12px;
+}
+
+.film-symbol {
+  font-size: 95px;
+  line-height: 1;
+  text-shadow: 5px 5px 0 #182a21;
+}
+
+.film-inner b {
+  font-size: 27px;
+  line-height: 1.05;
+  text-transform: uppercase;
+  font-weight: normal;
+}
+
+.film-inner small {
+  font: 10px Arial, sans-serif;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+}
+
+.stamp {
+  position: absolute;
+  right: -5px;
+  bottom: 20px;
+  background: var(--paper);
+  color: var(--red);
+  border: 1px solid var(--red);
+  padding: 12px 15px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  transform: rotate(-7deg);
+  z-index: 2;
+}
+
+/* СТАТИСТИКА */
+
+.stats {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: var(--paper2);
+}
+
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.stat {
+  padding: 22px 18px;
+  text-align: center;
+  border-right: 1px solid var(--line);
+}
+
+.stat:last-child { border: 0; }
+
+.stat strong {
+  font-size: 25px;
+  color: var(--red);
+  font-weight: normal;
+}
+
+.stat span {
+  display: block;
+  font: 10px Arial, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: .15em;
+  color: var(--muted);
+  margin-top: 5px;
+}
+
+/* СЕКЦИИ */
+
+section { padding: 70px 0; }
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 24px;
+  margin-bottom: 30px;
+}
+
+.section-kicker {
+  font: 10px Arial, sans-serif;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--red);
+}
+
+h2 {
+  font-size: clamp(32px, 4vw, 47px);
+  line-height: 1.05;
+  letter-spacing: -.03em;
+  font-weight: normal;
+  margin: 10px 0 0;
+}
+
+.section-intro {
+  font: 13px/1.7 Arial, sans-serif;
+  color: var(--muted);
+  max-width: 370px;
+}
+
+/* КАРТОЧКИ ФИЛЬМОВ */
+
+.featured-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.movie-card {
+  border: 1px solid var(--line);
+  background: #f8f4ec;
+  transition: transform .25s, box-shadow .25s;
+  cursor: pointer;
+  min-width: 0;
+}
+
+.movie-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow);
+}
+
+.poster {
+  height: 245px;
+  padding: 12px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #f9eed6;
+  background: var(--poster, #354d40);
+}
+
+.poster:before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 1px solid #f4e3bd88;
+}
+
+.poster:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, #1118, transparent 65%);
+}
+
+.poster-art {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 78px;
+  opacity: .88;
+  text-shadow: 5px 6px 0 #1114;
+}
+
+.poster-copy {
+  position: relative;
+  z-index: 1;
+  align-self: end;
+  width: 100%;
+  padding: 15px 8px 12px;
+}
+
+.poster-copy small {
+  display: block;
+  font: 9px Arial, sans-serif;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  margin-bottom: 9px;
+}
+
+.poster-copy strong {
+  display: block;
+  font-size: 25px;
+  line-height: 1.02;
+  font-weight: normal;
+  text-transform: uppercase;
+}
+
+.poster-copy span {
+  display: block;
+  font: 10px Arial, sans-serif;
+  margin-top: 10px;
+  letter-spacing: .08em;
+}
+
+.card-info { padding: 17px 16px 18px; }
+
+.tag {
+  display: inline-block;
+  color: var(--red);
+  font: 9px Arial, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  border-bottom: 1px solid #c99d8c;
+  padding-bottom: 4px;
+}
+
+.card-info h3 {
+  font-size: 20px;
+  line-height: 1.1;
+  font-weight: normal;
+  margin: 10px 0 7px;
+}
+
+.card-info p {
+  font: 12px/1.6 Arial, sans-serif;
+  color: var(--muted);
+  margin: 0 0 15px;
+}
+
+.card-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font: 10px Arial, sans-serif;
+  color: var(--muted);
+}
+
+.arrow {
+  font-size: 20px;
+  color: var(--red);
+}
+
+/* ЦЕННОСТИ */
+
+.values {
+  background: var(--green);
+  color: #f4ebdc;
+  position: relative;
+  overflow: hidden;
+}
+
+.values:after {
+  content: "КИНО";
+  position: absolute;
+  right: -20px;
+  bottom: -70px;
+  font-size: 200px;
+  opacity: .045;
+  pointer-events: none;
+}
+
+.values .section-kicker { color: #e1b878; }
+.values .section-intro { color: #d0d2c8; }
+
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  margin-top: 35px;
+  border-top: 1px solid #ffffff35;
+}
+
+.value-item {
+  padding: 28px 22px 18px 0;
+  margin-right: 22px;
+  border-bottom: 1px solid #ffffff35;
+}
+
+.value-num {
+  font-size: 14px;
+  color: #dfb773;
+}
+
+.value-item h3 {
+  font-size: 22px;
+  font-weight: normal;
+  margin: 16px 0 10px;
+}
+
+.value-item p {
+  font: 12px/1.8 Arial, sans-serif;
+  color: #d0d2c8;
+  margin: 0;
+}
+
+/* КАТАЛОГ */
+
+.catalog { background: #eee5d7; }
+
+.catalog-tools {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 25px 0 28px;
+}
+
+.search {
+  flex: 1;
+  min-width: 220px;
+  padding: 13px 15px;
+  border: 1px solid var(--line);
+  background: #faf6ee;
+  outline: none;
+  font: 13px Arial, sans-serif;
+}
+
+.search:focus { border-color: var(--red); }
+
+.filter {
+  border: 1px solid var(--line);
+  background: transparent;
+  padding: 12px 15px;
+  color: var(--ink);
+  font: 11px Arial, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+}
+
+.filter.active,
+.filter:hover {
+  background: var(--red);
+  color: white;
+  border-color: var(--red);
+}
+
+.catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.mini-card {
+  display: grid;
+  grid-template-columns: 105px 1fr;
+  min-height: 155px;
+  border: 1px solid var(--line);
+  background: #f7f1e7;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.mini-card:hover {
+  border-color: var(--red);
+  transform: translateY(-2px);
+}
+
+.mini-poster {
+  display: grid;
+  place-items: center;
+  text-align: center;
+  color: #f6e8ca;
+  background: var(--poster);
+  font-size: 36px;
+  position: relative;
+  overflow: hidden;
+}
+
+.mini-poster:after {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px solid #ffffff66;
+}
+
+.mini-content {
+  padding: 15px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.mini-content small {
+  font: 9px Arial, sans-serif;
+  color: var(--red);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+}
+
+.mini-content h3 {
+  font-size: 18px;
+  font-weight: normal;
+  line-height: 1.1;
+  margin: 8px 0;
+}
+
+.mini-content p {
+  font: 11px/1.5 Arial, sans-serif;
+  color: var(--muted);
+  margin: 0;
+}
+
+.no-results {
+  grid-column: 1 / -1;
+  padding: 40px;
+  text-align: center;
+  color: var(--muted);
+  border: 1px dashed var(--line);
+}
+
+/* ЦИТАТА И ПОДВАЛ */
+
+.quote {
+  padding: 60px 0;
+  text-align: center;
+}
+
+.quote blockquote {
+  font-size: clamp(24px, 3.5vw, 39px);
+  line-height: 1.25;
+  max-width: 800px;
+  margin: 0 auto;
+  color: var(--red);
+  font-style: italic;
+}
+
+.quote p {
+  font: 10px Arial, sans-serif;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 22px;
+}
+
+footer {
+  background: #242720;
+  color: #e9e0d1;
+  padding: 32px 0;
+}
+
+.footer-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: center;
+}
+
+.footer-title { font-size: 18px; }
+
+.footer-note {
+  font: 11px/1.6 Arial, sans-serif;
+  color: #b8b5a9;
+  max-width: 500px;
+}
+
+.back-top {
+  color: #e9e0d1;
+  text-decoration: none;
+  font: 11px Arial, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+}
+
+/* ОКНО ОБЗОРА */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: #171712c9;
+  z-index: 50;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  backdrop-filter: blur(5px);
+}
+
+.modal.open { display: flex; }
+
+.modal-panel {
+  background: var(--paper);
+  width: min(850px, 100%);
+  max-height: 90vh;
+  overflow: auto;
+  position: relative;
+  box-shadow: 0 25px 90px #0005;
+}
+
+.modal-close {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  border: 1px solid #fff8;
+  background: #f5ecdc;
+  color: var(--red);
+  width: 38px;
+  height: 38px;
+  font-size: 22px;
+  z-index: 3;
+}
+
+.modal-top {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: 300px;
+}
+
+.modal-poster {
+  background: var(--poster);
+  color: #f6e8ca;
+  display: grid;
+  place-items: center;
+  font-size: 100px;
+  position: relative;
+}
+
+.modal-poster:after {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border: 1px solid #ffffff66;
+}
+
+.modal-heading { padding: 45px 45px 28px; }
+
+.modal-heading h2 {
+  font-size: 42px;
+  margin: 8px 0 10px;
+}
+
+.modal-meta {
+  font: 11px Arial, sans-serif;
+  color: var(--muted);
+  letter-spacing: .08em;
+}
+
+.modal-body {
+  padding: 10px 45px 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+}
+
+.modal-body h3 {
+  font-size: 20px;
+  font-weight: normal;
+  margin: 12px 0;
+}
+
+.modal-body p {
+  font: 13px/1.8 Arial, sans-serif;
+  color: #5d574e;
+  margin: 0;
+}
+
+.modal-body .wide { grid-column: 1 / -1; }
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 22px;
+  flex-wrap: wrap;
+}
+
+/* АДАПТИВНОСТЬ */
+
+@media (max-width: 900px) {
+  .hero-grid { gap: 20px; }
+  .featured-grid { grid-template-columns: repeat(2, 1fr); }
+  .catalog-grid { grid-template-columns: repeat(2, 1fr); }
+  .values-grid { grid-template-columns: repeat(2, 1fr); }
+  .navlinks { gap: 12px; }
+  .hero-art { transform: scale(.9); }
+}
+
+@media (max-width: 620px) {
+  .wrap { width: min(100% - 28px, 1180px); }
+  .nav { height: 66px; }
+  .navlinks a { display: none; }
+  .brand strong { font-size: 12px; }
+  .brand small { font-size: 8px; }
+  .hero { padding: 45px 0 35px; }
+  .hero-grid { grid-template-columns: 1fr; }
+  .hero-art { min-height: 310px; margin-top: 5px; }
+  .film-frame { width: 205px; height: 275px; }
+  .sun {
+    width: 220px;
+    height: 220px;
+    right: calc(50% - 130px);
+  }
+  .hero:after { right: -180px; }
+  .section-head { display: block; }
+  .section-intro { margin-top: 15px; }
+  .featured-grid { gap: 10px; }
+  .poster { height: 200px; }
+  .poster-copy strong { font-size: 21px; }
+  .card-info { padding: 13px 12px; }
+  .card-info h3 { font-size: 17px; }
+  .catalog-grid { grid-template-columns: 1fr; }
+  .mini-card { grid-template-columns: 100px 1fr; }
+  .values-grid { grid-template-columns: 1fr 1fr; }
+  .value-item {
+    padding: 22px 12px 18px 0;
+    margin-right: 12px;
+  }
+  .stats .wrap { width: 100%; }
+  .stat { padding: 18px 6px; }
+  .stat strong { font-size: 20px; }
+  .stat span { font-size: 8px; letter-spacing: .08em; }
+  .modal-top { grid-template-columns: 115px 1fr; min-height: 220px; }
+  .modal-poster { font-size: 55px; }
+  .modal-heading { padding: 55px 20px 20px; }
+  .modal-heading h2 { font-size: 29px; }
+  .modal-body {
+    padding: 10px 20px 25px;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .modal-body .wide { grid-column: auto; }
+  .footer-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .quote { padding: 45px 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; }
+}
+</style>
+</head>
+
+<body>
+<div class="topline"></div>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top">
+      <span class="brand-mark">К</span>
+      <span>
+        <strong>Кино, которое нас объединяет</strong>
+        <small>ПУТЕВОДИТЕЛЬ ПО СОВЕТСКОМУ КИНО</small>
+      </span>
+    </a>
+
+    <nav class="navlinks">
+      <a href="#recommend">Выбор редакции</a>
+      <a href="#values">Ценности</a>
+      <a href="#catalog">Каталог</a>
+    </nav>
+
+    <button class="saved-nav" onclick="showSaved()">
+      ♡ Избранное <span id="savedCount">0</span>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">Киноархив · Выпуск № 01</div>
+      <h1>Большая страна.<br><em>Большое кино.</em></h1>
+
+      <p class="hero-copy">
+        Путешествие по фильмам, в которых живут наше чувство юмора,
+        дружба, любовь, смелость и вера в хорошее. Не скучный список
+        классики, а кино, которое хочется пересматривать и обсуждать.
+      </p>
+
+      <div class="hero-actions">
+        <a class="btn" href="#recommend" style="text-decoration:none">
+          Начать путешествие ↘
+        </a>
+        <a class="btn secondary" href="#catalog" style="text-decoration:none">
+          Найти свой фильм
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-art">
+      <div class="sun"></div>
+      <div class="film-frame">
+        <div class="film-inner">
+          <small>Старый добрый экран</small>
+          <div class="film-symbol">✺</div>
+          <b>Истории,<br>которые<br>остались</b>
+          <small>Золотая коллекция</small>
+        </div>
+      </div>
+      <div class="stamp">Смотреть обязательно</div>
+    </div>
+  </div>
+</section>
+
+<div class="stats">
+  <div class="wrap stats-row">
+    <div class="stat">
+      <strong>60–80-е</strong>
+      <span>Золотые десятилетия</span>
+    </div>
+    <div class="stat">
+      <strong>15</strong>
+      <span>Фильмов в путеводителе</span>
+    </div>
+    <div class="stat">
+      <strong>4</strong>
+      <span>Главные рекомендации</span>
+    </div>
+  </div>
+</div>
+
+<section id="recommend">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker">Если начать с четырёх</div>
+        <h2>Выбор редакции</h2>
+      </div>
+      <p class="section-intro">
+        Четыре фильма — четыре грани советской жизни. От тёплого юмора
+        до историй о достоинстве, любви и выборе.
+      </p>
+    </div>
+    <div class="featured-grid" id="featuredGrid"></div>
+  </div>
+</section>
+
+<section class="values" id="values">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker">Не только сюжеты</div>
+        <h2>Что мы уносим с собой</h2>
+      </div>
+      <p class="section-intro">
+        Советское кино часто говорит о простых вещах — но именно они
+        делают истории близкими спустя десятилетия.
+      </p>
+    </div>
+
+    <div class="values-grid">
+      <article class="value-item">
+        <span class="value-num">01 / ЧЕЛОВЕК</span>
+        <h3>Дружба и взаимовыручка</h3>
+        <p>Быть рядом, когда трудно, поддержать словом и делом, не бросить своего.</p>
+      </article>
+
+      <article class="value-item">
+        <span class="value-num">02 / СЕРДЦЕ</span>
+        <h3>Любовь без идеальности</h3>
+        <p>Чувства, сомнения, смешные ошибки и умение слышать другого человека.</p>
+      </article>
+
+      <article class="value-item">
+        <span class="value-num">03 / ХАРАКТЕР</span>
+        <h3>Честность и достоинство</h3>
+        <p>Оставаться собой, отвечать за решения и не проходить мимо несправедливости.</p>
+      </article>
+
+      <article class="value-item">
+        <span class="value-num">04 / ЖИЗНЬ</span>
+        <h3>Юмор и надежда</h3>
+        <p>Уметь смеяться над собой и находить свет даже в запутанной ситуации.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="catalog" id="catalog">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker">Листайте, выбирайте, открывайте</div>
+        <h2>Кино на любой вечер</h2>
+      </div>
+      <p class="section-intro">
+        Ищите по названию, выбирайте жанр или нажимайте на карточки —
+        у каждого фильма есть свой обзор.
+      </p>
+    </div>
+
+    <div class="catalog-tools">
+      <input
+        id="searchInput"
+        class="search"
+        type="search"
+        placeholder="Например, «Ирония судьбы»…"
+        aria-label="Поиск фильмов"
+      >
+      <button class="filter active" data-filter="Все">Все фильмы</button>
+      <button class="filter" data-filter="Комедия">Комедии</button>
+      <button class="filter" data-filter="Драма">Драмы</button>
+      <button class="filter" data-filter="Приключения">Приключения</button>
+      <button class="filter" data-filter="Фантастика">Фантастика</button>
+    </div>
+
+    <div class="catalog-grid" id="catalogGrid"></div>
+  </div>
+</section>
+
+<div class="quote">
+  <div class="wrap">
+    <blockquote>
+      «В каждом времени есть истории, которые помогают лучше понять людей — и самих себя».
+    </blockquote>
+    <p>Заметка киноклуба · Открывайте классику заново</p>
+  </div>
+</div>
+
+</main>
+
+<footer>
+  <div class="wrap footer-row">
+    <div>
+      <div class="footer-title">Кино, которое нас объединяет</div>
+      <div class="footer-note">
+        Учебный проект-путеводитель по советскому кинематографу.
+        Описания подготовлены для знакомства с фильмами;
+        постеры стилизованы и созданы средствами CSS.
+      </div>
+    </div>
+    <a class="back-top" href="#top">Наверх ↑</a>
+  </div>
+</footer>
+
+<div
+  class="modal"
+  id="movieModal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="modalTitle"
+  onclick="if(event.target===this)closeModal()"
+>
+  <div class="modal-panel">
+    <button class="modal-close" onclick="closeModal()" aria-label="Закрыть">×</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<script>
+const movies = [
+{
+  id: 1,
+  title: "Ирония судьбы, или С лёгким паром!",
+  year: 1975,
+  director: "Эльдар Рязанов",
+  genre: "Комедия",
+  symbol: "❄",
+  color: "#45665e",
+  short: "Новогодняя случайность, которая меняет привычный порядок вещей.",
+  plot: "После традиционного похода в баню Женя Лукашин по ошибке оказывается в Ленинграде — в квартире с тем же адресом, что и его московская. Неловкая встреча постепенно превращается в историю о случайности, одиночестве и любви.",
+  values: "Открытость переменам, способность увидеть в незнакомце близкого человека и надежда на неожиданное счастье.",
+  why: "Фильм стал новогодней традицией для многих семей. Его можно обсуждать как историю о судьбе, привычках и том, как случайный вечер меняет жизнь.",
+  featured: true
+},
+{
+  id: 2,
+  title: "Москва слезам не верит",
+  year: 1979,
+  director: "Владимир Меньшов",
+  genre: "Драма",
+  symbol: "✦",
+  color: "#9d4939",
+  short: "Три подруги, большой город и путь к самостоятельности.",
+  plot: "Три молодые женщины приезжают в Москву и строят совершенно разные планы на будущее. Спустя годы жизнь проверяет их решения, мечты и отношения.",
+  values: "Самостоятельность, труд, дружба и право человека начинать заново независимо от возраста и обстоятельств.",
+  why: "Это не сказка об идеальной судьбе, а история о взрослении и выборе. Она позволяет поговорить о самостоятельности и цене успеха.",
+  featured: true
+},
+{
+  id: 3,
+  title: "Бриллиантовая рука",
+  year: 1968,
+  director: "Леонид Гайдай",
+  genre: "Комедия",
+  symbol: "◇",
+  color: "#354e65",
+  short: "Обычный человек случайно становится участником невероятной авантюры.",
+  plot: "Скромный Семён Семёнович Горбунков отправляется в круиз и по случайности оказывается втянут в историю с контрабандистами. Его честность сталкивается с чередой абсурдных происшествий.",
+  values: "Честность, ответственность и мысль о том, что порядочность не обязательно должна быть скучной.",
+  why: "Фильм полон цитат, комических ситуаций и узнаваемых характеров. Отличный выбор, чтобы увидеть, как советская комедия высмеивала жадность и нелепость.",
+  featured: true
+},
+{
+  id: 4,
+  title: "Офицеры",
+  year: 1971,
+  director: "Владимир Роговой",
+  genre: "Драма",
+  symbol: "✶",
+  color: "#6b5540",
+  short: "История нескольких поколений, верности и служения.",
+  plot: "На протяжении десятилетий фильм следит за судьбами военных друзей и их семей, показывая, как меняются времена, но остаются важными честь, дружба и ответственность.",
+  values: "Верность слову, товарищество, мужество и преемственность поколений.",
+  why: "Картина показывает героизм не только как подвиг, но и как ежедневную готовность отвечать за близких и свои решения.",
+  featured: true
+},
+{
+  id: 5,
+  title: "Операция «Ы» и другие приключения Шурика",
+  year: 1965,
+  director: "Леонид Гайдай",
+  genre: "Комедия",
+  symbol: "☻",
+  color: "#c18a3e",
+  short: "Три комедийные истории о находчивом и добродушном студенте.",
+  plot: "Студент Шурик попадает в череду смешных ситуаций: от подготовки к экзамену до противостояния незадачливым хулиганам.",
+  values: "Любознательность, находчивость, трудолюбие и уверенность, что ум и спокойствие сильнее грубой силы.",
+  why: "Лёгкий фильм для знакомства с советским юмором и студенческой культурой шестидесятых.",
+  featured: false
+},
+{
+  id: 6,
+  title: "Добро пожаловать, или Посторонним вход воспрещён",
+  year: 1964,
+  director: "Элем Климов",
+  genre: "Комедия",
+  symbol: "☀",
+  color: "#5e795c",
+  short: "Летний лагерь, строгие правила и детская изобретательность.",
+  plot: "После нарушения правил пионер Костя Иночкин должен тайно оставаться в лагере, чтобы не расстроить бабушку. Его друзья придумывают план, а бюрократические порядки становятся предметом сатиры.",
+  values: "Дружба, свобода, самостоятельное мышление и добрый скепсис к чрезмерным запретам.",
+  why: "За лёгкой комедией скрывается тонкая сатира на формализм и взрослое стремление всё контролировать.",
+  featured: false
+},
+{
+  id: 7,
+  title: "Кавказская пленница, или Новые приключения Шурика",
+  year: 1967,
+  director: "Леонид Гайдай",
+  genre: "Комедия",
+  symbol: "☼",
+  color: "#b96d42",
+  short: "Студент-фольклорист попадает в необыкновенную историю на Кавказе.",
+  plot: "Шурик приезжает собирать местный фольклор и оказывается втянут в авантюру вокруг похищения Нины. На помощь приходят юмор и верные друзья.",
+  values: "Смелость, дружба, уважение к свободе другого человека и способность действовать, когда это необходимо.",
+  why: "Динамичная комедия с музыкой, приключениями и яркими персонажами; отличный пример популярного кино своего времени.",
+  featured: false
+},
+{
+  id: 8,
+  title: "Служебный роман",
+  year: 1977,
+  director: "Эльдар Рязанов",
+  genre: "Комедия",
+  symbol: "❀",
+  color: "#8e6b72",
+  short: "Офисная жизнь, неловкость чувств и возможность измениться.",
+  plot: "В статистическом учреждении робкий Новосельцев и строгая руководительница Калугина постепенно узнают друг друга за пределами рабочих ролей.",
+  values: "Эмпатия, уважение, отказ судить человека по внешности и должности, смелость быть уязвимым.",
+  why: "Фильм позволяет обсудить рабочие отношения, стереотипы и то, как внимательное отношение меняет людей.",
+  featured: false
+},
+{
+  id: 9,
+  title: "А зори здесь тихие",
+  year: 1972,
+  director: "Станислав Ростоцкий",
+  genre: "Драма",
+  symbol: "✧",
+  color: "#4b6256",
+  short: "Трагическая история девушек-зенитчиц во время войны.",
+  plot: "Старшина Васков и группа молодых зенитчиц вступают в неравный бой с немецкими диверсантами. У каждой героини есть собственная жизнь, мечты и характер.",
+  values: "Мужество, товарищество, память о войне и ценность каждой человеческой жизни.",
+  why: "Сильная антивоенная история, которая помогает говорить о цене подвига и о людях за страницами учебников.",
+  featured: false
+},
+{
+  id: 10,
+  title: "Солярис",
+  year: 1972,
+  director: "Андрей Тарковский",
+  genre: "Фантастика",
+  symbol: "◉",
+  color: "#354e59",
+  short: "Космическая экспедиция становится путешествием внутрь человека.",
+  plot: "Психолог Крис Кельвин прибывает на орбитальную станцию планеты Солярис, где сталкивается с необъяснимыми явлениями и воплощениями собственных воспоминаний.",
+  values: "Совесть, ответственность, любовь, границы познания и вопрос о том, что делает нас людьми.",
+  why: "Фантастика здесь нужна не ради эффектов, а ради философских вопросов. Фильм подойдёт для неспешного просмотра и обсуждения.",
+  featured: false
+},
+{
+  id: 11,
+  title: "Приключения Электроника",
+  year: 1979,
+  director: "Константин Бромберг",
+  genre: "Приключения",
+  symbol: "⌁",
+  color: "#527f8a",
+  short: "Робот, похожий на школьника, пытается разобраться в человеческом мире.",
+  plot: "Мальчик Серёжа Сыроежкин знакомится с роботом Электроником, который выглядит точь-в-точь как он. Их обмен ролями приводит к приключениям и важным открытиям.",
+  values: "Дружба, индивидуальность, ответственность и мысль о том, что способности не заменяют человечность.",
+  why: "Фильм соединяет фантастику, школьную жизнь и музыку, а ещё задаёт актуальный вопрос: можно ли научиться быть человеком?",
+  featured: false
+},
+{
+  id: 12,
+  title: "Белое солнце пустыни",
+  year: 1970,
+  director: "Владимир Мотыль",
+  genre: "Приключения",
+  symbol: "☀",
+  color: "#ad7041",
+  short: "Возвращение домой откладывается ради чужой безопасности.",
+  plot: "Красноармеец Фёдор Сухов направляется домой, но оказывается втянут в опасные события в пустыне и берёт на себя заботу о женщинах из гарема Абдуллы.",
+  values: "Чувство долга, защита уязвимых, верность принципам и личная ответственность.",
+  why: "Приключенческий фильм с необычной атмосферой, запоминающимися репликами и героем, который действует по совести.",
+  featured: false
+},
+{
+  id: 13,
+  title: "Человек-амфибия",
+  year: 1961,
+  director: "Владимир Чеботарёв, Геннадий Казанский",
+  genre: "Приключения",
+  symbol: "≈",
+  color: "#36717a",
+  short: "Романтическая история о свободе, отличии и принятии.",
+  plot: "Ихтиандр способен жить под водой благодаря операции, проведённой талантливым доктором. Его необычность становится и даром, и причиной чужих страхов.",
+  values: "Свобода, сострадание, неприятие жестокости и уважение к тем, кто отличается от большинства.",
+  why: "Красивая фантастическая история, которая позволяет поговорить о предрассудках и цене научного открытия.",
+  featured: false
+},
+{
+  id: 14,
+  title: "Гостья из будущего",
+  year: 1984,
+  director: "Павел Арсенов",
+  genre: "Фантастика",
+  symbol: "⌬",
+  color: "#5a6b89",
+  short: "Школьник из Москвы случайно открывает дверь в будущее.",
+  plot: "Коля Герасимов попадает в будущее и становится участником погони за миелофоном — прибором, способным читать мысли. На помощь приходят юные герои из разных эпох.",
+  values: "Честность, смелость, дружба и вера в то, что будущее зависит от поступков людей.",
+  why: "Культовая история для нескольких поколений, наполненная воображением и оптимизмом.",
+  featured: false
+},
+{
+  id: 15,
+  title: "Карнавальная ночь",
+  year: 1956,
+  director: "Эльдар Рязанов",
+  genre: "Комедия",
+  symbol: "✺",
+  color: "#8f3430",
+  short: "Молодые сотрудники готовят праздник вопреки скучным инструкциям.",
+  plot: "Команда клуба хочет устроить весёлый новогодний вечер, но сталкивается с начальником, который предпочитает официальные речи живому празднику.",
+  values: "Творчество, инициативность, командная работа и радость, которую не заменишь формальностями.",
+  why: "Лёгкая музыкальная комедия о столкновении живого человеческого желания праздника с бюрократией.",
+  featured: false
+}
+];
+
+let activeFilter = "Все";
+let saved = new Set();
+let showingSaved = false;
+
+const $ = selector => document.querySelector(selector);
+
+function esc(text) {
+  return String(text).replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
+
+function poster(movie, mini = false) {
+  return `
+    <div class="${mini ? "mini-poster" : "poster"}"
+         style="--poster:${movie.color}">
+      <div class="poster-art">${movie.symbol}</div>
+      ${mini ? "" : `
+        <div class="poster-copy">
+          <small>Золотая коллекция · ${movie.year}</small>
+          <strong>${esc(movie.title)}</strong>
+          <span>${esc(movie.genre)} · СССР</span>
+        </div>
+      `}
+    </div>
+  `;
+}
+
+function featuredCard(movie) {
+  return `
+    <article class="movie-card"
+      tabindex="0"
+      role="button"
+      aria-label="Открыть обзор фильма ${esc(movie.title)}"
+      onclick="openMovie(${movie.id})"
+      onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openMovie(${movie.id})}">
+      ${poster(movie)}
+      <div class="card-info">
+        <span class="tag">${esc(movie.genre)} · ${movie.year}</span>
+        <h3>${esc(movie.title)}</h3>
+        <p>${esc(movie.short)}</p>
+        <div class="card-foot">
+          <span>Читать обзор</span>
+          <span class="arrow">↗</span>
+        </div>
+      </div>
+    </article>
+  `;
+}
+
+function miniCard(movie) {
+  return `
+    <article class="mini-card"
+      tabindex="0"
+      role="button"
+      onclick="openMovie(${movie.id})"
+      onkeydown="if(event.key==='Enter')openMovie(${movie.id})">
+      ${poster(movie, true)}
+      <div class="mini-content">
+        <small>${esc(movie.genre)} · ${movie.year}</small>
+        <h3>${esc(movie.title)}</h3>
+        <p>${esc(movie.short)}</p>
+      </div>
+    </article>
+  `;
+}
+
+function renderFeatured() {
+  $("#featuredGrid").innerHTML = movies
+    .filter(movie => movie.featured)
+    .map(featuredCard)
+    .join("");
+}
+
+function renderCatalog() {
+  const query = $("#searchInput").value.trim().toLowerCase();
+
+  const list = movies.filter(movie => {
+    const matchesGenre =
+      activeFilter === "Все" || movie.genre === activeFilter;
+
+    const searchableText = (
+      movie.title + " " +
+      movie.genre + " " +
+      movie.director + " " +
+      movie.short + " " +
+      movie.values
+    ).toLowerCase();
+
+    const matchesSearch = !query || searchableText.includes(query);
+    const matchesSaved = !showingSaved || saved.has(movie.id);
+
+    return matchesGenre && matchesSearch && matchesSaved;
+  });
+
+  $("#catalogGrid").innerHTML = list.length
+    ? list.map(miniCard).join("")
+    : '<div class="no-results">Ничего не нашлось. Попробуйте другое название или сбросьте фильтр.</div>';
+
+  document.querySelectorAll(".filter").forEach(button => {
+    button.classList.toggle(
+      "active",
+      button.dataset.filter === activeFilter
+    );
+  });
+
+  $("#savedCount").textContent = saved.size;
+}
+
+function openMovie(id) {
+  const movie = movies.find(item => item.id === id);
+  if (!movie) return;
+
+  $("#modalContent").innerHTML = `
+    <div class="modal-top">
+      <div class="modal-poster" style="--poster:${movie.color}">
+        ${movie.symbol}
+      </div>
+
+      <div class="modal-heading">
+        <span class="tag">${esc(movie.genre)} · ${movie.year}</span>
+        <h2 id="modalTitle">${esc(movie.title)}</h2>
+        <div class="modal-meta">
+          РЕЖИССЁР: ${esc(movie.director)} · СССР
+        </div>
+
+        <p style="font:13px/1.7 Arial,sans-serif;color:var(--muted);margin-top:18px">
+          ${esc(movie.short)}
+        </p>
+
+        <div class="modal-actions">
+          <button class="btn" onclick="toggleSaved(${movie.id})">
+            ${saved.has(movie.id)
+              ? "♥ В избранном"
+              : "♡ Хочу посмотреть"}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-body">
+      <div>
+        <h3>О чём фильм</h3>
+        <p>${esc(movie.plot)}</p>
+      </div>
+
+      <div>
+        <h3>Какие ценности раскрывает</h3>
+        <p>${esc(movie.values)}</p>
+      </div>
+
+      <div class="wide">
+        <h3>Почему стоит посмотреть сегодня</h3>
+        <p>${esc(movie.why)}</p>
+      </div>
+    </div>
+  `;
+
+  $("#movieModal").classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+
+function closeModal() {
+  $("#movieModal").classList.remove("open");
+  document.body.style.overflow = "";
+}
+
+function toggleSaved(id) {
+  if (saved.has(id)) {
+    saved.delete(id);
+  } else {
+    saved.add(id);
+  }
+
+  $("#savedCount").textContent = saved.size;
+
+  if ($("#movieModal").classList.contains("open")) {
+    openMovie(id);
+  }
+
+  renderCatalog();
+}
+
+function showSaved() {
+  showingSaved = !showingSaved;
+
+  if (showingSaved) {
+    activeFilter = "Все";
+    $("#searchInput").value = "";
+    $(".saved-nav").textContent = "← Весь каталог";
+  } else {
+    $(".saved-nav").innerHTML =
+      '♡ Избранное <span id="savedCount">' + saved.size + "</span>";
+  }
+
+  $("#catalog").scrollIntoView({ behavior: "smooth" });
+  renderCatalog();
+}
+
+$("#searchInput").addEventListener("input", renderCatalog);
+
+document.querySelectorAll(".filter").forEach(button => {
+  button.addEventListener("click", () => {
+    activeFilter = button.dataset.filter;
+    showingSaved = false;
+
+    $(".saved-nav").innerHTML =
+      '♡ Избранное <span id="savedCount">' + saved.size + "</span>";
+
+    renderCatalog();
+  });
+});
+
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") closeModal();
+});
+
+renderFeatured();
+renderCatalog();
+</script>
+</body>
+</html>
